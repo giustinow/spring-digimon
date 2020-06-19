@@ -29,10 +29,10 @@ public class ControllerDigimon {
 
 	@RequestMapping(value = "/azione", method = RequestMethod.POST)
 	public ModelAndView azione(@RequestParam("azione") String azione, Map<String, Object> model) {
-		if ("Entra".equals(azione)) {
+		if ("Allenatore".equals(azione)) {
 			Allenatore allenatore = new Allenatore();
 			model.put("allenatore", allenatore);
-			return new ModelAndView("login");
+			return new ModelAndView("profilo");
 		}
 		return stampaDigimon();
 	}
@@ -69,13 +69,14 @@ public class ControllerDigimon {
 	@RequestMapping(value = "/aggiuntaDigimon", method = RequestMethod.POST)
 	public ModelAndView aggiuntaDigimonAllenatore(@RequestParam("digimon") Long digimon,
 			@RequestParam("id") Long id) {
-		if (!serviceAllenatore.checkPresenzaDigimonAllenatore(serviceDigimon.findDigimon(digimon), id)) {
+		if (serviceDigimon.checkAllenatore(serviceDigimon.findDigimon(digimon))) {
 			ModelAndView view = new ModelAndView("digimonDaAggiungere");
 			view.addObject("lista", serviceDigimon.listAll());
 			view.addObject("listaDigimonAllenatore", serviceAllenatore.listaDigimonAllenatore(id));
 			view.addObject("id", id);
 			view.addObject("messaggio", "Digimon gia presente nel tuo profilo");
 			System.out.println("//////////////////////////////" + serviceDigimon.findDigimon(digimon));
+			System.out.println("//////////////////////////////" + id);
 			serviceAllenatore.saveDigimon(serviceDigimon.findDigimon(id), id);
 			serviceDigimon.saveAllenatore(serviceDigimon.findDigimon(id), serviceAllenatore.findAllenatore(id));
 			return view;

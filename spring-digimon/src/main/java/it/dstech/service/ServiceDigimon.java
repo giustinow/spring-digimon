@@ -18,12 +18,16 @@ public class ServiceDigimon {
 		return repo.findById(id).get();
 	}
 	public void saveAllenatore(Digimon digimon, Allenatore allenatore) {
-		digimon.getLista().add(allenatore);
+		digimon.setAllenatore(allenatore);
 	}
 	public void save(Digimon digimon) {
 		repo.save(digimon);
 	}
-	
+	public boolean checkAllenatore(Digimon digimon) {
+		if(digimon.getAllenatore() != null) {
+			return true;
+		}return false;
+	}
 	public List<Digimon> listAll() {
 		return (List<Digimon>) repo.findAll();
 	}

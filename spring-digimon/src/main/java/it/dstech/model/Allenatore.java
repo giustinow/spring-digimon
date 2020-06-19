@@ -2,7 +2,6 @@ package it.dstech.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,9 +20,8 @@ public class Allenatore {
 	private Long id;
 	@Column(unique = true)
 	private String username;
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Digimon> lista;
-
 	public Allenatore() {
 	}
 

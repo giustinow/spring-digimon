@@ -37,7 +37,8 @@ public class ServiceAllenatore {
 	}
 	public void removeDigimon(Digimon digimon, Long id) {
 		Allenatore utente = repo.findById(id).get();
-		digimon.getLista().remove(utente);
+		utente.getLista().remove(digimon);
+		digimon.setAllenatore(null);
 	}
 	public List<Digimon> listaDigimonAllenatore(Long id){
 		Allenatore utente = findAllenatore(id);

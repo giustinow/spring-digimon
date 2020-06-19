@@ -10,6 +10,7 @@
 </head>
 <body>
 <form:form action="salva" method="post" modelAttribute="digimon">
+<form:hidden path="id"/>
 <label>Nome</label>
 <form:input path="nome"/>
 <label>HP</label>

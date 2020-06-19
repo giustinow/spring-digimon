@@ -9,7 +9,7 @@
 </head>
 <body>
 <form:form action="azione" method="post" modelAttribute="prodotto">
-<input type="submit" name="azione" value="Entra">
+<input type="submit" name="azione" value="Allenatore">
 <input type="submit" name="azione" value="Digimon">
 </form:form>
 </body>

@@ -2,13 +2,14 @@ package it.dstech.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -23,14 +24,18 @@ public class Digimon {
 	private int def;
 	private int res;
 	private String evoluzione;
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Allenatore> lista;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "digimon_id")
+	private Allenatore allenatore;
 
 	public Digimon() {
 	}
 
+	
+
+
 	protected Digimon(Long id, String nome, int hp, int atk, int def, int res, String evoluzione,
-			List<Allenatore> lista) {
+			Allenatore allenatore) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -39,17 +44,27 @@ public class Digimon {
 		this.def = def;
 		this.res = res;
 		this.evoluzione = evoluzione;
-		this.lista = lista;
+		this.allenatore = allenatore;
 	}
 
 
-	public List<Allenatore> getLista() {
-		return lista;
+
+
+	
+
+	public Allenatore getAllenatore() {
+		return allenatore;
 	}
 
-	public void setLista(List<Allenatore> lista) {
-		this.lista = lista;
+
+
+
+	public void setAllenatore(Allenatore allenatore) {
+		this.allenatore = allenatore;
 	}
+
+
+
 
 	public Long getId() {
 		return id;
