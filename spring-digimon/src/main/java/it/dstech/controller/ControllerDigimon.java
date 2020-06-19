@@ -30,24 +30,31 @@ public class ControllerDigimon {
 	@RequestMapping(value = "/azione", method = RequestMethod.POST)
 	public ModelAndView azione(@RequestParam("azione") String azione, Map<String, Object> model) {
 		if ("Allenatore".equals(azione)) {
+			ModelAndView view = new ModelAndView("profilo");
 			Allenatore allenatore = new Allenatore();
 			model.put("allenatore", allenatore);
-			return new ModelAndView("profilo");
+			view.addObject("lista", serviceAllenatore.listAll());
+			return view;
 		}
 		return stampaDigimon();
 	}
-
-	@RequestMapping(value = "/accesso", method = RequestMethod.POST)
-	public ModelAndView accesso(@ModelAttribute("allenatore") Allenatore allenatore) {
-		System.out.println("(////////////////////////////////////////" + allenatore.getId());
+	@RequestMapping(value = "/digimonAllenatore")
+	public ModelAndView digimonAllenatore(@RequestParam("id") Long id) {
+			ModelAndView view = new ModelAndView("digimonAllenatore");
+			view.addObject("lista", serviceAllenatore.listaDigimonAllenatore(id));
+			view.addObject("id", id);
+			return view;
+	}
+	@RequestMapping(value = "/nuovoAllenatore", method = RequestMethod.POST)
+	public ModelAndView nuovoAllenatore(@ModelAttribute("allenatore") Allenatore allenatore) {
 			serviceAllenatore.save(allenatore);
 			ModelAndView view = new ModelAndView("profilo");
-			view.addObject("lista", serviceAllenatore.listaDigimonAllenatore(allenatore.getId()));
+			view.addObject("lista", serviceAllenatore.listAll());
 			view.addObject("id", allenatore.getId());
 			return view;
 	}
 
-	@RequestMapping(value = "/digimonDaAggiungere", method = RequestMethod.POST)
+	@RequestMapping(value = "/digimonDaAggiungere")
 	public ModelAndView digimonDaAggiungereAllenatore(@RequestParam("id") Long id) {
 		ModelAndView view = new ModelAndView("digimonDaAggiungere");
 		view.addObject("lista", serviceDigimon.listAll());
@@ -55,35 +62,41 @@ public class ControllerDigimon {
 		view.addObject("listaDigimonAllenatore", serviceAllenatore.listaDigimonAllenatore(id));
 		return view;
 	}
-
+	@RequestMapping(value = "/rimuoviAllenatore")
+	public ModelAndView rimuoviAllenatore(@RequestParam("id") Long id, Map<String, Object> model) {
+		serviceAllenatore.delete(id);
+		ModelAndView view = new ModelAndView("profilo");
+		Allenatore allenatore = new Allenatore();
+		model.put("allenatore", allenatore);
+		view.addObject("lista", serviceAllenatore.listAll());
+		return view;
+	}
 	@RequestMapping(value = "/rimuovi")
 	public ModelAndView digimonDaRimuovereAllenatore(@RequestParam("digimon") Long digimon,
 			@RequestParam("id") Long id) {
 		serviceAllenatore.removeDigimon(serviceDigimon.findDigimon(digimon), id);
-		ModelAndView view = new ModelAndView("profilo");
-		view.addObject("id", id);
+		ModelAndView view = new ModelAndView("digimonAllenatore");
 		view.addObject("lista", serviceAllenatore.listaDigimonAllenatore(id));
+		view.addObject("id", id);
 		return view;
 	}
 
 	@RequestMapping(value = "/aggiuntaDigimon", method = RequestMethod.POST)
 	public ModelAndView aggiuntaDigimonAllenatore(@RequestParam("digimon") Long digimon,
 			@RequestParam("id") Long id) {
-		if (serviceDigimon.checkAllenatore(serviceDigimon.findDigimon(digimon))) {
+		if (!serviceDigimon.checkAllenatore(serviceDigimon.findDigimon(digimon))) {
 			ModelAndView view = new ModelAndView("digimonDaAggiungere");
+			System.out.println("//////////////////////////////" + serviceDigimon.get(digimon));
+			System.out.println("//////////////////////////////" + id);
+			serviceAllenatore.saveDigimon(serviceDigimon.get(digimon), id);
+			serviceDigimon.saveAllenatore(serviceDigimon.get(digimon), serviceAllenatore.findAllenatore(id));
 			view.addObject("lista", serviceDigimon.listAll());
 			view.addObject("listaDigimonAllenatore", serviceAllenatore.listaDigimonAllenatore(id));
 			view.addObject("id", id);
-			view.addObject("messaggio", "Digimon gia presente nel tuo profilo");
-			System.out.println("//////////////////////////////" + serviceDigimon.findDigimon(digimon));
-			System.out.println("//////////////////////////////" + id);
-			serviceAllenatore.saveDigimon(serviceDigimon.findDigimon(id), id);
-			serviceDigimon.saveAllenatore(serviceDigimon.findDigimon(id), serviceAllenatore.findAllenatore(id));
 			return view;
 		}
 		ModelAndView view = new ModelAndView("digimonDaAggiungere");
 		view.addObject("lista", serviceDigimon.listAll());
-		view.addObject("messaggio", "Digimon aggiunto nel tuo profilo");
 		view.addObject("listaDigimonAllenatore", serviceAllenatore.listaDigimonAllenatore(id));
 		view.addObject("id", id);
 		return view;

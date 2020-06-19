@@ -1,6 +1,5 @@
 package it.dstech.model;
 
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -126,4 +124,44 @@ public class Digimon {
 	public void setEvoluzione(String evoluzione) {
 		this.evoluzione = evoluzione;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Digimon other = (Digimon) obj;
+		if (allenatore == null) {
+			if (other.allenatore != null)
+				return false;
+		} else if (!allenatore.equals(other.allenatore))
+			return false;
+		if (atk != other.atk)
+			return false;
+		if (def != other.def)
+			return false;
+		if (evoluzione == null) {
+			if (other.evoluzione != null)
+				return false;
+		} else if (!evoluzione.equals(other.evoluzione))
+			return false;
+		if (hp != other.hp)
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (res != other.res)
+			return false;
+		return true;
+	}
+	
 }

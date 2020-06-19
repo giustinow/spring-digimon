@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>      
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,30 +10,27 @@
 <title>Profilo</title>
 </head>
 <body>
-<form action="digimonDaAggiungere" method="post">
-<input type="hidden" name="id" value="${id}">
-<input type="submit" value="Aggiungi Nuovo Digimon">
-</form>
+<form:form action="nuovoAllenatore" method ="post" modelAttribute="allenatore">
+<label>Username:</label>
+<form:input path="username"/>
+<input type="submit" value="Aggiungi Allenatore">
+</form:form>
 <table>
 		<tr>
-			<th>Nome</th>
-			<th>HP</th>
-			<th>Attacco</th>
-			<th>Difesa</th>
-			<th>Resistenza</th>
-			<th>Evoluzione</th>
+			<th>Nome Allenatore</th>
 			<th></th>
 		</tr>
-		<c:forEach items="${lista}" var="digimon">
+		<c:forEach items="${lista}" var="allenatore">
 		<tr>
-			<td>${digimon.nome}</td>
-			<td>${digimon.hp}</td>
-			<td>${digimon.atk}</td>
-			<td>${digimon.def}</td>
-			<td>${digimon.res}</td>
-			<td>${digimon.evoluzione}</td>
+			<td>${allenatore.username}</td>
 			<td>
-				<a href="rimuovi?digimon=${digimon.id}&id=${id}">Rimuovi</a>
+				<a href="digimonDaAggiungere?id=${allenatore.id}">Aggiungi Digimon</a>
+			</td>
+			<td>
+				<a href="digimonAllenatore?id=${allenatore.id}">Digimon</a>
+			</td>
+			<td>
+				<a href="rimuoviAllenatore?id=${allenatore.id}">Rimuovi</a>
 			</td>
 		</tr>
 		</c:forEach>

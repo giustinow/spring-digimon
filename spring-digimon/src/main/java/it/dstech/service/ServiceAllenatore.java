@@ -32,14 +32,14 @@ public class ServiceAllenatore {
 	}
 	public void saveDigimon(Digimon digimon, Long id) {
 		Allenatore utente = repo.findById(id).get();
-		List<Digimon> lista = utente.getLista();
-		lista.add(digimon);
+		utente.getLista().add(digimon);
 	}
 	public void removeDigimon(Digimon digimon, Long id) {
 		Allenatore utente = repo.findById(id).get();
 		utente.getLista().remove(digimon);
 		digimon.setAllenatore(null);
 	}
+	
 	public List<Digimon> listaDigimonAllenatore(Long id){
 		Allenatore utente = findAllenatore(id);
 		return utente.getLista();
