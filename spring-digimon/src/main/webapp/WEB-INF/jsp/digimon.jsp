@@ -12,6 +12,15 @@
 <form action="sceltaAggiuntaDigimon" method="post">
 <input type="submit" value="Nuovo Digimon">
 </form>
+<form action="sort" method="post">
+<select name="sort">
+  <option value="1">HP</option>
+  <option value="2">ATK</option>
+  <option value="3">DEF</option>
+  <option value="4">RES</option>
+</select>
+<input type="submit" value="Ordina">
+</form>
 <table>
 		<tr>
 			<th>Nome</th>

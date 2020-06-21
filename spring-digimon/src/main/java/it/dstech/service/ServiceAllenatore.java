@@ -47,7 +47,7 @@ public class ServiceAllenatore {
 	public List<Allenatore> listAll() {
 		return (List<Allenatore>) repo.findAll();
 	}
-
+	
 	public Allenatore get(Long id) {
 		return repo.findById(id).get();
 	}

@@ -38,20 +38,22 @@ public class ControllerDigimon {
 		}
 		return stampaDigimon();
 	}
+
 	@RequestMapping(value = "/digimonAllenatore")
 	public ModelAndView digimonAllenatore(@RequestParam("id") Long id) {
-			ModelAndView view = new ModelAndView("digimonAllenatore");
-			view.addObject("lista", serviceAllenatore.listaDigimonAllenatore(id));
-			view.addObject("id", id);
-			return view;
+		ModelAndView view = new ModelAndView("digimonAllenatore");
+		view.addObject("lista", serviceAllenatore.listaDigimonAllenatore(id));
+		view.addObject("id", id);
+		return view;
 	}
+
 	@RequestMapping(value = "/nuovoAllenatore", method = RequestMethod.POST)
 	public ModelAndView nuovoAllenatore(@ModelAttribute("allenatore") Allenatore allenatore) {
-			serviceAllenatore.save(allenatore);
-			ModelAndView view = new ModelAndView("profilo");
-			view.addObject("lista", serviceAllenatore.listAll());
-			view.addObject("id", allenatore.getId());
-			return view;
+		serviceAllenatore.save(allenatore);
+		ModelAndView view = new ModelAndView("profilo");
+		view.addObject("lista", serviceAllenatore.listAll());
+		view.addObject("id", allenatore.getId());
+		return view;
 	}
 
 	@RequestMapping(value = "/digimonDaAggiungere")
@@ -62,6 +64,7 @@ public class ControllerDigimon {
 		view.addObject("listaDigimonAllenatore", serviceAllenatore.listaDigimonAllenatore(id));
 		return view;
 	}
+
 	@RequestMapping(value = "/rimuoviAllenatore")
 	public ModelAndView rimuoviAllenatore(@RequestParam("id") Long id, Map<String, Object> model) {
 		serviceAllenatore.delete(id);
@@ -71,6 +74,7 @@ public class ControllerDigimon {
 		view.addObject("lista", serviceAllenatore.listAll());
 		return view;
 	}
+
 	@RequestMapping(value = "/rimuovi")
 	public ModelAndView digimonDaRimuovereAllenatore(@RequestParam("digimon") Long digimon,
 			@RequestParam("id") Long id) {
@@ -82,8 +86,7 @@ public class ControllerDigimon {
 	}
 
 	@RequestMapping(value = "/aggiuntaDigimon", method = RequestMethod.POST)
-	public ModelAndView aggiuntaDigimonAllenatore(@RequestParam("digimon") Long digimon,
-			@RequestParam("id") Long id) {
+	public ModelAndView aggiuntaDigimonAllenatore(@RequestParam("digimon") Long digimon, @RequestParam("id") Long id) {
 		if (!serviceDigimon.checkAllenatore(serviceDigimon.findDigimon(digimon))) {
 			ModelAndView view = new ModelAndView("digimonDaAggiungere");
 			System.out.println("//////////////////////////////" + serviceDigimon.get(digimon));
@@ -133,7 +136,7 @@ public class ControllerDigimon {
 		view.addObject("digimon", serviceDigimon.get(id));
 		return view;
 	}
-	
+
 	@RequestMapping(value = "/aggiorna", method = RequestMethod.POST)
 	public ModelAndView aggiornaModifica(@ModelAttribute("digimon") Digimon digimon) {
 		serviceDigimon.save(digimon);
@@ -144,6 +147,25 @@ public class ControllerDigimon {
 	public ModelAndView salvaModifica(@ModelAttribute("digimon") Digimon digimon) {
 		serviceDigimon.save(digimon);
 		return stampaDigimon();
+	}
+
+	@RequestMapping(value = "/sort", method = RequestMethod.POST)
+	public ModelAndView sort(@RequestParam("sort") String sort) {
+		switch (Integer.parseInt(sort)) {
+		case 1: {
+			return new ModelAndView("digimon", "lista", serviceDigimon.hpSort());
+		}
+		case 2: {
+			return new ModelAndView("digimon", "lista", serviceDigimon.atkSort());
+		}
+		case 3: {
+			return new ModelAndView("digimon", "lista", serviceDigimon.defSort());
+		}
+		case 4: {
+			return new ModelAndView("digimon", "lista", serviceDigimon.resSort());
+		}
+		}
+		return null;
 	}
 
 }

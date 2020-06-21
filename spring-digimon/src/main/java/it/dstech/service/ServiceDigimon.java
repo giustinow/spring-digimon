@@ -39,4 +39,16 @@ public class ServiceDigimon {
 	public void delete(Long id) {
 		repo.deleteById(id);
 	}
+	public List<Digimon> hpSort(){
+		return repo.sortHp();
+	}
+	public List<Digimon> atkSort(){
+		return repo.sortAtk();
+	}
+	public List<Digimon> defSort(){
+		return repo.sortDef();
+	}
+	public List<Digimon> resSort(){
+		return repo.sortRes();
+	}
 }
